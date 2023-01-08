@@ -1,0 +1,15 @@
+{
+  "entryFile": "src/main.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/controllers/**/*controller.ts"],
+  "spec": {
+    "outputDirectory": "public",
+    "specVersion": 3
+  },
+  "routes": {
+    "basePath": "/api/v1",
+    "routesDir": "src/routes",
+    "middleware": "express"
+  },
+  "ignore": ["**/node_modules/**"]
+}
