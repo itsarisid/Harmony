@@ -4,12 +4,24 @@
   "controllerPathGlobs": ["src/controllers/**/*controller.ts"],
   "spec": {
     "outputDirectory": "public",
-    "specVersion": 3
+    "specVersion": 3,
+    "securityDefinitions": {
+        "jwt": {
+          "name": "jwt",
+          "type": "jwt",
+          "scopes": {
+            "read:project": "read project",
+            "write:project": "write project"
+
+          }
+        }
+     }
   },
   "routes": {
     "basePath": "/api/v1",
     "routesDir": "src/routes",
-    "middleware": "express"
+    "middleware": "express",
+    "authenticationModule": "src/security/authentication.ts"
   },
   "ignore": ["**/node_modules/**"]
 }

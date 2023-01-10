@@ -1,4 +1,4 @@
-import { Get, Route } from "tsoa";
+import { Get, Route, Security } from "tsoa";
 
 interface PingResponse {
   message: string;
@@ -6,6 +6,7 @@ interface PingResponse {
 
 @Route("ping")
 export class PingController {
+  @Security("jwt", ["admin"])
   @Get("/")
   public async getMessage(): Promise<PingResponse> {
     return {

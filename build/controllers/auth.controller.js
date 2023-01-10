@@ -18,60 +18,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PingController = void 0;
+exports.AuthController = void 0;
 const tsoa_1 = require("tsoa");
-let PingController = class PingController {
-    getMessage() {
+let AuthController = class AuthController {
+    login() {
         return __awaiter(this, void 0, void 0, function* () {
             return {
-                message: "hello",
+                message: "successfull",
+            };
+        });
+    }
+    ;
+    changePassword() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return {
+                message: "change password",
             };
         });
     }
 };
 __decorate([
-    (0, tsoa_1.Security)("jwt", ["admin"]),
-    (0, tsoa_1.Get)("/"),
+    (0, tsoa_1.Post)("/login"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], PingController.prototype, "getMessage", null);
-PingController = __decorate([
-    (0, tsoa_1.Route)("ping")
-], PingController);
-exports.PingController = PingController;
-//   import client from './config/db';
-// import article from './config/databse';
-// app.get("/test", async (_req, res) => {
-//     client.connect(async (err: any, db: any) => {
-//         const dbo = await db.db("Harmony");
-//         if (err) throw err;
-//         dbo.collection("User").find({}).toArray(function (e: any, result: any) {
-//             if (e) throw e;
-//             console.log(result);
-//             db.close();
-//         });
-//     });
-//     res.send({
-//         message: "Success",
-//     });
-// });
-// app.get("/get-blog", async (_req, res) => {
-//   client.connect(async (err: any, db: any) => {
-//       const dbo = await db.db("Harmony");
-//       if (err) throw err;
-//       dbo.collection("blogs").find({}).toArray(function (e: any, result: any) {
-//           if (e) throw e;
-//           console.log();
-//           res.send(result);
-//           db.close();
-//       });
-//   });
-// });
-// app.get("/article", async (_req, res) => {
-//   // Insert the article in our MongoDB database
-//   article.save();
-//     res.send({
-//         message: "pong",
-//     });
-// });
+], AuthController.prototype, "login", null);
+__decorate([
+    (0, tsoa_1.Post)("/change-password"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "changePassword", null);
+AuthController = __decorate([
+    (0, tsoa_1.Route)("auth")
+], AuthController);
+exports.AuthController = AuthController;

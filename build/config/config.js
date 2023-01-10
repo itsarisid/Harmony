@@ -13,6 +13,11 @@ class Configs {
             password: process.env.PASSWORD
         };
         this.PORT = process.env.PORT || 8322;
+        this.JWT = {
+            jwksHost: process.env.JWKS_HOST,
+            audience: process.env.AUDIENCE,
+            issuer: process.env.ISSUER
+        };
     }
 }
 exports.Configs = Configs;

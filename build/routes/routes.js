@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterRoutes = void 0;
 /* tslint:disable */
@@ -6,9 +15,14 @@ exports.RegisterRoutes = void 0;
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const runtime_1 = require("@tsoa/runtime");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const auth_controller_1 = require("./../controllers/auth.controller");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const ping_controller_1 = require("./../controllers/ping.controller");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const users_controller_1 = require("./../controllers/users.controller");
+const authentication_1 = require("./../security/authentication");
+// @ts-ignore - no great way to install types from subpackage
+const promiseAny = require('promise.any');
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const models = {
     "PingResponse": {
@@ -49,7 +63,37 @@ function RegisterRoutes(app) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-    app.get('/api/v1/ping', ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController)), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController.prototype.getMessage)), function PingController_getMessage(request, response, next) {
+    app.post('/api/v1/auth/login', ...((0, runtime_1.fetchMiddlewares)(auth_controller_1.AuthController)), ...((0, runtime_1.fetchMiddlewares)(auth_controller_1.AuthController.prototype.login)), function AuthController_login(request, response, next) {
+        const args = {};
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new auth_controller_1.AuthController();
+            const promise = controller.login.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/api/v1/auth/change-password', ...((0, runtime_1.fetchMiddlewares)(auth_controller_1.AuthController)), ...((0, runtime_1.fetchMiddlewares)(auth_controller_1.AuthController.prototype.changePassword)), function AuthController_changePassword(request, response, next) {
+        const args = {};
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new auth_controller_1.AuthController();
+            const promise = controller.changePassword.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/api/v1/ping', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController)), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController.prototype.getMessage)), function PingController_getMessage(request, response, next) {
         const args = {};
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
@@ -100,6 +144,53 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    function authenticateMiddleware(security = []) {
+        return function runAuthenticationMiddleware(request, _response, next) {
+            return __awaiter(this, void 0, void 0, function* () {
+                // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+                // keep track of failed auth attempts so we can hand back the most
+                // recent one.  This behavior was previously existing so preserving it
+                // here
+                const failedAttempts = [];
+                const pushAndRethrow = (error) => {
+                    failedAttempts.push(error);
+                    throw error;
+                };
+                const secMethodOrPromises = [];
+                for (const secMethod of security) {
+                    if (Object.keys(secMethod).length > 1) {
+                        const secMethodAndPromises = [];
+                        for (const name in secMethod) {
+                            secMethodAndPromises.push((0, authentication_1.expressAuthentication)(request, name, secMethod[name])
+                                .catch(pushAndRethrow));
+                        }
+                        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+                        secMethodOrPromises.push(Promise.all(secMethodAndPromises)
+                            .then(users => { return users[0]; }));
+                    }
+                    else {
+                        for (const name in secMethod) {
+                            secMethodOrPromises.push((0, authentication_1.expressAuthentication)(request, name, secMethod[name])
+                                .catch(pushAndRethrow));
+                        }
+                    }
+                }
+                // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+                try {
+                    request['user'] = yield promiseAny.call(Promise, secMethodOrPromises);
+                    next();
+                }
+                catch (err) {
+                    // Show most recent error as response
+                    const error = failedAttempts.pop();
+                    error.status = error.status || 401;
+                    next(error);
+                }
+                // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            });
+        };
+    }
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     function isController(object) {
         return 'getHeaders' in object && 'getStatus' in object && 'setStatus' in object;
