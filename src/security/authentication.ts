@@ -1,8 +1,10 @@
-// Auth.ts
+import { Configs } from './../config/config';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
-import jwksRsa from 'jwks-rsa';
 const logger = require('debug')('express');
+
+const _CONFIGS = new Configs();
+ const secret = _CONFIGS.JWT.secret || "HARMONY";
 
 export function expressAuthentication(
     request: express.Request,
@@ -16,7 +18,7 @@ export function expressAuthentication(
             if (!token) {
                 reject(new Error('No token provided'));
             }
-            jwt.verify(token, "harmony", function (err: any, decoded: any) {
+            jwt.verify(token, secret, function (err: any, decoded: any) {
                 if (err) {
                     logger(err.name, err.message);
                     reject(err);

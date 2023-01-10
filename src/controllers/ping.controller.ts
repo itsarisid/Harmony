@@ -1,17 +1,13 @@
 import { Get, Route, Security } from "tsoa";
+import {APIResponse} from './../models/apiResponse'
 
-interface PingResponse {
-  message: string;
-}
 
 @Route("ping")
 export class PingController {
   @Security("jwt", ["admin"])
   @Get("/")
-  public async getMessage(): Promise<PingResponse> {
-    return {
-      message: "hello",
-    };
+  public async getMessage(): Promise<APIResponse<string>> {
+    return new APIResponse<string>("This is ping pon");
   }
 }
 

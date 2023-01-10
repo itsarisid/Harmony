@@ -10,7 +10,7 @@ export class Configs {
     PORT = process.env.PORT || 8322
 
     JWT = {
-        jwksHost: process.env.JWKS_HOST,
+        secret: process.env.SECRET_KEY,
         audience: process.env.AUDIENCE,
         issuer: process.env.ISSUER
     }

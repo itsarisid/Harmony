@@ -20,12 +20,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PingController = void 0;
 const tsoa_1 = require("tsoa");
+const apiResponse_1 = require("./../models/apiResponse");
 let PingController = class PingController {
     getMessage() {
         return __awaiter(this, void 0, void 0, function* () {
-            return {
-                message: "hello",
-            };
+            return new apiResponse_1.APIResponse("This is ping pon");
         });
     }
 };

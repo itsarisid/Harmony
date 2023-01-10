@@ -93,7 +93,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/api/v1/ping', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController)), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController.prototype.getMessage)), function PingController_getMessage(request, response, next) {
+    app.get('/api/v1/ping', authenticateMiddleware([{ "jwt": ["admin"] }]), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController)), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController.prototype.getMessage)), function PingController_getMessage(request, response, next) {
         const args = {};
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];

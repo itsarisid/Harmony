@@ -24,11 +24,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.expressAuthentication = void 0;
+const config_1 = require("./../config/config");
 const jwt = __importStar(require("jsonwebtoken"));
 const logger = require('debug')('express');
-const jwksHost = process.env.JWKS_HOST;
-// const audience = config.JWT.audience;
-// const issuer = config.JWT.issuer;
+const _CONFIGS = new config_1.Configs();
+const secret = _CONFIGS.JWT.secret || "HARMONY";
 function expressAuthentication(request, securityName, scopes) {
     if (securityName === 'jwt') {
         //Get the jwt token from the head
@@ -37,17 +37,19 @@ function expressAuthentication(request, securityName, scopes) {
             if (!token) {
                 reject(new Error('No token provided'));
             }
-            jwt.verify(token, "harmony", function (err, decoded) {
+            jwt.verify(token, secret, function (err, decoded) {
                 if (err) {
+                    logger(err.name, err.message);
                     reject(err);
                 }
                 else {
+                    console.log(decoded);
                     // Check if JWT contains all required scopes
-                    for (let scope of scopes || []) {
-                        if (!decoded.scopes.includes(scope)) {
-                            reject(new Error("JWT does not contain required scope."));
-                        }
-                    }
+                    // for (let scope of scopes || []) {
+                    //     if (!decoded.scopes.includes(scope)) {
+                    //         reject(new Error("JWT does not contain required scope."));
+                    //     }
+                    // }
                     resolve(decoded);
                 }
             });
