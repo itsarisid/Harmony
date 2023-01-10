@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 const logger = require('debug')('express');
 
 const _CONFIGS = new Configs();
- const secret = _CONFIGS.JWT.secret || "HARMONY";
+const secret = _CONFIGS.JWT.secret || "HARMONY";
 
 export function expressAuthentication(
     request: express.Request,
