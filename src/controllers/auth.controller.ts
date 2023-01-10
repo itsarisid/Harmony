@@ -17,5 +17,11 @@ export class AuthController {
     return {
       message: "change password",
     };
+  };
+  @Post("/register")
+  public async register(): Promise<PingResponse> {
+    return {
+      message: "change password",
+    };
   }
 }

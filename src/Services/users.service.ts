@@ -1,23 +1,24 @@
-import { User } from "../interface/user";
+import { User } from "../interface/User";
 
 // A post request should not contain an id.
-export type UserCreationParams = Pick<User, "email" | "name" | "phoneNumbers">;
+export type UserCreationParams = Pick<User, "email" | "name"|"password" | "phoneNumbers">;
 
 export class UsersService {
   public get(id: number, name?: string): User {
     return {
       id,
-      email: "jane@doe.com",
-      name: name ?? "Jane Doe",
-      status: "Happy",
+      email: "sajid@khan.com",
+      name: name ?? "Sajid Khan",
+      password: "123456",
       phoneNumbers: [],
     };
   }
 
   public create(userCreationParams: UserCreationParams): User {
+    //Encrypt user password
+    //encryptedPassword = await bcrypt.hash(password, 10);
     return {
-      id: Math.floor(Math.random() * 10000), // Random
-      status: "Happy",
+      id: Math.floor(Math.random() * 10000), 
       ...userCreationParams,
     };
   }
