@@ -13,6 +13,13 @@ class Configs {
             password: process.env.PASSWORD
         };
         this.PORT = process.env.PORT || 8322;
+        this.JWT = {
+            secret: process.env.SECRET_KEY || "HARMONY",
+            audience: process.env.AUDIENCE || "www.arisid.com",
+            issuer: process.env.ISSUER || "Harmony",
+            expiresIn: process.env.EXPIRE_IN || "1h",
+            subject: process.env.SUBJECT || "Harmony App",
+        };
     }
 }
 exports.Configs = Configs;
