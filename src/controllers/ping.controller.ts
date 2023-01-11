@@ -7,6 +7,7 @@ export class PingController {
   @Security("jwt", ["admin"])
   @Get("/")
   public async getMessage(): Promise<APIResponse<string>> {
+    console.log(Buffer.from("Hello World").toString('base64'));
     return new APIResponse<string>("This is ping pon");
   }
 }

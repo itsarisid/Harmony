@@ -20,10 +20,10 @@
 			},
 			"APIResponse_string_": {
 				"properties": {
-					"description": {
+					"message": {
 						"type": "string"
 					},
-					"message": {
+					"description": {
 						"type": "string"
 					},
 					"data": {
@@ -31,28 +31,60 @@
 					}
 				},
 				"required": [
-					"description",
 					"message",
 					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"APIResponse_object_": {
+			"User": {
 				"properties": {
-					"description": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"email": {
 						"type": "string"
 					},
-					"message": {
+					"name": {
 						"type": "string"
 					},
-					"data": {
-						"additionalProperties": false,
-						"type": "object"
+					"password": {
+						"type": "string"
+					},
+					"phoneNumbers": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"token": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"description",
+					"id",
+					"email",
+					"name",
+					"password",
+					"phoneNumbers"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"APIResponse_User_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/User"
+					}
+				},
+				"required": [
 					"message",
 					"data"
 				],
@@ -204,7 +236,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/APIResponse_object_"
+									"$ref": "#/components/schemas/APIResponse_User_"
 								}
 							}
 						}

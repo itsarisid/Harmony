@@ -15,7 +15,6 @@ import { User } from "../interface/User";
 import { UsersService, UserCreationParams } from "../Services/users.service";
 
 const _CONFIGS = new Configs();
-const secret = _CONFIGS.JWT.secret || "HARMONY";
 
 @Route("user")
 export class UsersController extends Controller {
@@ -23,20 +22,23 @@ export class UsersController extends Controller {
     @Post("/")
     public async createUser(
         @Body() requestBody: UserCreationParams
-    ): Promise<APIResponse<object>> {
+    ): Promise<APIResponse<User>> {
         this.setStatus(201); // set return status 201
         new UsersService().create(requestBody);
 
         // Create token
         const token = jwt.sign(
             requestBody,
-            secret,
+            _CONFIGS.JWT.secret,
             {
-                expiresIn: "2h",
+                expiresIn: _CONFIGS.JWT.expiresIn,
+                audience: _CONFIGS.JWT.audience,
+                subject: _CONFIGS.JWT.subject,
             }
         );
-        return new APIResponse<object>({
+        return new APIResponse<User>({
             ...requestBody,
+            id: 1,
             token: token
         });
     }

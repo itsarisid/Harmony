@@ -24,6 +24,7 @@ const apiResponse_1 = require("./../models/apiResponse");
 let PingController = class PingController {
     getMessage() {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(Buffer.from("Hello World").toString('base64'));
             return new apiResponse_1.APIResponse("This is ping pon");
         });
     }

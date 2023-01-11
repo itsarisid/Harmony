@@ -1,12 +1,15 @@
 import { IAPIResponse } from '../interface/IAPIResponse';
 
 export class APIResponse<T> implements IAPIResponse<T> {
-    constructor(responseData: T) {
+    constructor(responseData: T
+        , message: string = "Successfull"
+        , description: string = ""
+        ) {
         this.data = responseData;
-        this.description = "";
-        this.message = "Successfull";
+        this.message = message;
+        this.description = description;
     }
-    description: string;
     message: string;
+    description?: string;
     data: T
 }

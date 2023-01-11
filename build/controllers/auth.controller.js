@@ -36,6 +36,14 @@ let AuthController = class AuthController {
             };
         });
     }
+    ;
+    register() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return {
+                message: "change password",
+            };
+        });
+    }
 };
 __decorate([
     (0, tsoa_1.Post)("/login"),
@@ -49,6 +57,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "changePassword", null);
+__decorate([
+    (0, tsoa_1.Post)("/register"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "register", null);
 AuthController = __decorate([
     (0, tsoa_1.Route)("auth")
 ], AuthController);

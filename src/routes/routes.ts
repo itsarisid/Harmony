@@ -35,12 +35,25 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "APIResponse_object_": {
+    "User": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "email": {"dataType":"string","required":true},
+            "name": {"dataType":"string","required":true},
+            "password": {"dataType":"string","required":true},
+            "phoneNumbers": {"dataType":"array","array":{"dataType":"string"},"required":true},
+            "token": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "APIResponse_User_": {
         "dataType": "refObject",
         "properties": {
             "description": {"dataType":"string","required":true},
             "message": {"dataType":"string","required":true},
-            "data": {"dataType":"object","required":true},
+            "data": {"ref":"User","required":true},
         },
         "additionalProperties": false,
     },
