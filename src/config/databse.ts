@@ -1,6 +1,6 @@
 
 import mongoose from 'mongoose';
-import { Configs } from "./config";
+import { Configs } from "./Config";
 const config = new Configs();
 import Blog from "../models/Blog"
 const uri = `mongodb+srv://${config.dbCredentials.username}:${config.dbCredentials.password}@harmony.8w14cgj.mongodb.net/Harmony?retryWrites=true&w=majority`;

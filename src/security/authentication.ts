@@ -1,4 +1,4 @@
-import { Configs } from './../config/config';
+import { Configs } from '../config/Config';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 const logger = require('debug')('express');

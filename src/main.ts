@@ -1,5 +1,5 @@
 import { StatusCode } from './interface/common/StatusCode';
-import { Configs } from './config/config';
+import { Configs } from './config/Config';
 import express, { Application, Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -8,7 +8,7 @@ import { RegisterRoutes } from './routes/routes';
 import { ValidateError } from "tsoa";
 import bodyParser from 'body-parser';
 import { ApplicationError } from './middleware/ApplicationError';
-import { APIResponse } from './models/apiResponse';
+import { APIResponse } from './models/APIResponse';
 const config = new Configs();
 
 // Initialize the app.
