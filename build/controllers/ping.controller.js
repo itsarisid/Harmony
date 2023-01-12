@@ -21,11 +21,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PingController = void 0;
 const tsoa_1 = require("tsoa");
 const apiResponse_1 = require("./../models/apiResponse");
+const UserSchema_1 = require("./../schemas/UserSchema");
 let PingController = class PingController {
     getMessage() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(Buffer.from("Hello World").toString('base64'));
             return new apiResponse_1.APIResponse("This is ping pon");
+        });
+    }
+    validateJOI() {
+        return __awaiter(this, void 0, void 0, function* () {
+            //  const value = UserSchema.validate({
+            //     email: "sajid@khan.com",
+            //     name: "Sajid Khan",
+            //     password: "123456"
+            //   });
+            //   console.log(value);
+            const result = UserSchema_1.UserSchema.validate({
+                email: "sajid@khan.com",
+                name: "Sajid Khan",
+                password: ""
+            });
+            const { value, error } = result;
+            const valid = error == null;
+            if (!valid) {
+                return new apiResponse_1.APIResponse(error);
+            }
+            else {
+                return new apiResponse_1.APIResponse("This is ping pon");
+            }
         });
     }
 };
@@ -36,6 +59,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], PingController.prototype, "getMessage", null);
+__decorate([
+    (0, tsoa_1.Get)("/pong"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PingController.prototype, "validateJOI", null);
 PingController = __decorate([
     (0, tsoa_1.Route)("ping")
 ], PingController);

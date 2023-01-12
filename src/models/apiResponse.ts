@@ -1,15 +1,17 @@
+import { StatusCode } from '../interface/common/StatusCode';
 import { IAPIResponse } from '../interface/IAPIResponse';
 
 export class APIResponse<T> implements IAPIResponse<T> {
     constructor(responseData: T
-        , message: string = "Successfull"
-        , description: string = ""
-        ) {
+        , code: StatusCode = StatusCode.Ok
+        , message: string = ""
+    ) {
+        this.code = code;
+        this.message = message ? message : Object.keys(StatusCode)[Object.values(StatusCode).indexOf(code)];
         this.data = responseData;
-        this.message = message;
-        this.description = description;
+
     }
+    code: StatusCode
     message: string;
-    description?: string;
     data: T
 }

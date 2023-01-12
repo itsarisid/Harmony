@@ -36,8 +36,8 @@ const models = {
     "APIResponse_string_": {
         "dataType": "refObject",
         "properties": {
-            "description": { "dataType": "string", "required": true },
             "message": { "dataType": "string", "required": true },
+            "description": { "dataType": "string" },
             "data": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
@@ -59,8 +59,8 @@ const models = {
     "APIResponse_User_": {
         "dataType": "refObject",
         "properties": {
-            "description": { "dataType": "string", "required": true },
             "message": { "dataType": "string", "required": true },
+            "description": { "dataType": "string" },
             "data": { "ref": "User", "required": true },
         },
         "additionalProperties": false,
@@ -137,6 +137,21 @@ function RegisterRoutes(app) {
             validatedArgs = getValidatedArgs(args, request, response);
             const controller = new ping_controller_1.PingController();
             const promise = controller.getMessage.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/api/v1/ping/pong', ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController)), ...((0, runtime_1.fetchMiddlewares)(ping_controller_1.PingController.prototype.validateJOI)), function PingController_validateJOI(request, response, next) {
+        const args = {};
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new ping_controller_1.PingController();
+            const promise = controller.validateJOI.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, undefined, next);
         }
         catch (err) {

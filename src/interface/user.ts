@@ -6,3 +6,7 @@ export interface User {
     phoneNumbers: string[];
     token?:string
   }
+
+export interface Registration{
+  token?:string
+}

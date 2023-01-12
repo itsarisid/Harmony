@@ -28,8 +28,8 @@ const models: TsoaRoute.Models = {
     "APIResponse_string_": {
         "dataType": "refObject",
         "properties": {
-            "description": {"dataType":"string","required":true},
             "message": {"dataType":"string","required":true},
+            "description": {"dataType":"string"},
             "data": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
@@ -51,8 +51,8 @@ const models: TsoaRoute.Models = {
     "APIResponse_User_": {
         "dataType": "refObject",
         "properties": {
-            "description": {"dataType":"string","required":true},
             "message": {"dataType":"string","required":true},
+            "description": {"dataType":"string"},
             "data": {"ref":"User","required":true},
         },
         "additionalProperties": false,
@@ -169,6 +169,30 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.getMessage.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/api/v1/ping/pong',
+            ...(fetchMiddlewares<RequestHandler>(PingController)),
+            ...(fetchMiddlewares<RequestHandler>(PingController.prototype.validateJOI)),
+
+            function PingController_validateJOI(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new PingController();
+
+
+              const promise = controller.validateJOI.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
