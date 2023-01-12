@@ -5,17 +5,16 @@ export type UserCreationParams = Pick<User,
   "email"
   | "name"
   | "password"
-  | "phoneNumbers"
+  | "phoneNumber"
 >;
 
 export class UsersService {
   public get(id: number, name?: string): User {
     return {
-      id,
       email: "sajid@khan.com",
       name: name ?? "Sajid Khan",
       password: "123456",
-      phoneNumbers: [],
+      phoneNumber: "",
       token: ""
     };
   }
@@ -24,7 +23,6 @@ export class UsersService {
     //Encrypt user password
     //encryptedPassword = await bcrypt.hash(password, 10);
     return {
-      id: Math.floor(Math.random() * 10000),
       ...userCreationParams,
     };
   }

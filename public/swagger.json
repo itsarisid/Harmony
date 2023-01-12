@@ -6,6 +6,18 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"PingResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"StatusCode": {
 				"enum": [
 					100,
@@ -74,12 +86,26 @@
 				],
 				"type": "number"
 			},
+			"APIResponse_any_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"$ref": "#/components/schemas/StatusCode"
+					},
+					"data": {}
+				},
+				"required": [
+					"message",
+					"code",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"User": {
 				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
 					"email": {
 						"type": "string"
 					},
@@ -89,22 +115,38 @@
 					"password": {
 						"type": "string"
 					},
-					"phoneNumbers": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
+					"phoneNumber": {
+						"type": "string"
 					},
 					"token": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"id",
 					"email",
 					"name",
 					"password",
-					"phoneNumbers"
+					"phoneNumber"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"APIResponse_string_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"$ref": "#/components/schemas/StatusCode"
+					},
+					"data": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"code",
+					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -129,7 +171,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_User.email-or-name-or-password-or-phoneNumbers_": {
+			"Pick_User.email-or-name-or-password-or-phoneNumber_": {
 				"properties": {
 					"email": {
 						"type": "string"
@@ -140,24 +182,21 @@
 					"password": {
 						"type": "string"
 					},
-					"phoneNumbers": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
+					"phoneNumber": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"email",
 					"name",
 					"password",
-					"phoneNumbers"
+					"phoneNumber"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"UserCreationParams": {
-				"$ref": "#/components/schemas/Pick_User.email-or-name-or-password-or-phoneNumbers_"
+				"$ref": "#/components/schemas/Pick_User.email-or-name-or-password-or-phoneNumber_"
 			}
 		},
 		"securitySchemes": {
@@ -183,6 +222,117 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PingResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/change-password": {
+			"post": {
+				"operationId": "ChangePassword",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PingResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/APIResponse_any_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ping": {
+			"get": {
+				"operationId": "GetMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/APIResponse_string_"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"jwt": [
+							"admin"
+						]
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/ping/pong": {
+			"get": {
+				"operationId": "ValidateJOI",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/APIResponse_any_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/user": {
 			"post": {
 				"operationId": "CreateUser",

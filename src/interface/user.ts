@@ -1,9 +1,8 @@
 export interface User {
-    id: number;
     email: string;
     name: string;
     password:string;
-    phoneNumbers: string[];
+    phoneNumber: string;
     token?:string
   }
 
