@@ -57,6 +57,7 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^3.0.0",
+    "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.3",

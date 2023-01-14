@@ -65,8 +65,8 @@ export class AuthController extends Controller {
       return new APIResponse<Joi.ValidationError>(error, StatusCode.BadRequest);
     } else {
       const _services = new UsersService();
-      let res = _services.create(requestBody);
-      console.log(1,res);
+      let res = await _services.create(requestBody);
+      console.log(3,res);
       return res;
       //console.log(a);
       //return new APIResponse<any>(a);

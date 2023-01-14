@@ -18,21 +18,31 @@ export type UserCreationParams = Pick<IUser,
 >;
 
 export class UsersService {
+  // private _user: IUser;
+  // constructor(user: IUser) {
+  //   this._user = user;
+  // }
+
   public get(id: number, name?: string): IUser {
     return {
       email: "sajid@khan.com",
       name: name ?? "Sajid Khan",
       password: "123456",
       phoneNumber: "",
-      token: ""
+      token: "",
+      timestamps: {}
     };
   }
 
   public async create(params: UserCreationParams): Promise<APIResponse<any>> {
     const uri = `mongodb+srv://${_CONFIGS.dbCredentials.username}:${_CONFIGS.dbCredentials.password}@harmony.8w14cgj.mongodb.net/Harmony?retryWrites=true&w=majority`;
     mongoose.connect(uri);
-    const user: any = await User.findOne({ email: 'sajid@khan.com' });
+    const user: any = User.find({ email: 'sajid@khan.com' }).select("name").exec((x, y) => {
+      console.log(2,x, y);
+    });
     console.log(1, user);
+
+
     return new APIResponse<IUser>(user, StatusCode.BadRequest);
   }
 }

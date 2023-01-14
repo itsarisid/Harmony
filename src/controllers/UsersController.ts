@@ -38,7 +38,8 @@ export class UsersController extends Controller {
         );
         return new APIResponse<IUser>({
             ...requestBody,
-            token: token
+            token: token,
+            timestamps:{}
         });
     }
 }
