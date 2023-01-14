@@ -8,6 +8,8 @@ export class Configs {
     }
 
     PORT = process.env.PORT || 8322
+    
+    defaultPassword = process.env.DEFAULT_PASSWORD || "default123@harmony"
 
     JWT = {
         secret: process.env.SECRET_KEY || "HARMONY",

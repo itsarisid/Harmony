@@ -11,7 +11,7 @@ import {
     Route,
     SuccessResponse,
 } from "tsoa";
-import { User } from "../interface/User";
+import { IUser } from "../interface/IUser";
 import { UsersService, UserCreationParams } from "../Services/UsersService";
 
 const _CONFIGS = new Configs();
@@ -22,7 +22,7 @@ export class UsersController extends Controller {
     @Post("/")
     public async createUser(
         @Body() requestBody: UserCreationParams
-    ): Promise<APIResponse<User>> {
+    ): Promise<APIResponse<IUser>> {
         this.setStatus(201); // set return status 201
         new UsersService().create(requestBody);
 
@@ -36,7 +36,7 @@ export class UsersController extends Controller {
                 subject: _CONFIGS.JWT.subject,
             }
         );
-        return new APIResponse<User>({
+        return new APIResponse<IUser>({
             ...requestBody,
             token: token
         });

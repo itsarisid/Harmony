@@ -104,7 +104,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"User": {
+			"IUser": {
 				"properties": {
 					"email": {
 						"type": "string"
@@ -125,7 +125,6 @@
 				"required": [
 					"email",
 					"name",
-					"password",
 					"phoneNumber"
 				],
 				"type": "object",
@@ -151,7 +150,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"APIResponse_User_": {
+			"APIResponse_IUser_": {
 				"properties": {
 					"message": {
 						"type": "string"
@@ -160,7 +159,7 @@
 						"$ref": "#/components/schemas/StatusCode"
 					},
 					"data": {
-						"$ref": "#/components/schemas/User"
+						"$ref": "#/components/schemas/IUser"
 					}
 				},
 				"required": [
@@ -171,7 +170,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_User.email-or-name-or-password-or-phoneNumber_": {
+			"Pick_IUser.email-or-name-or-password-or-phoneNumber_": {
 				"properties": {
 					"email": {
 						"type": "string"
@@ -189,14 +188,13 @@
 				"required": [
 					"email",
 					"name",
-					"password",
 					"phoneNumber"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"UserCreationParams": {
-				"$ref": "#/components/schemas/Pick_User.email-or-name-or-password-or-phoneNumber_"
+				"$ref": "#/components/schemas/Pick_IUser.email-or-name-or-password-or-phoneNumber_"
 			}
 		},
 		"securitySchemes": {
@@ -282,7 +280,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/User"
+								"$ref": "#/components/schemas/IUser"
 							}
 						}
 					}
@@ -342,7 +340,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/APIResponse_User_"
+									"$ref": "#/components/schemas/APIResponse_IUser_"
 								}
 							}
 						}
