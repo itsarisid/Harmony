@@ -1,5 +1,5 @@
 import { StatusCode } from './../interface/common/StatusCode';
-import { APIResponse } from './../models/APIResponse';
+import { APIResponse } from '../models/APIResponse';
 import { IUser } from "../interface/IUser";
 import client from './../config/db';
 import bcrypt from 'bcryptjs'
