@@ -8,7 +8,9 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "esModuleInterop": true,
-    
+    "lib": ["es5", "es6", "esnext.asynciterable"],
+    "sourceMap": true,
+    "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

@@ -1,10 +1,7 @@
 import { StatusCode } from './../interface/common/StatusCode';
 import { APIResponse } from '../models/APIResponse';
 import { IUser } from "../interface/IUser";
-import client from './../config/db';
 import bcrypt from 'bcryptjs'
-import { User } from "../db/User";
-import mongoose from "mongoose";
 import * as jwt from 'jsonwebtoken';
 import { Configs } from '../config/Config';
 
@@ -35,14 +32,7 @@ export class UsersService {
   }
 
   public async create(params: UserCreationParams): Promise<APIResponse<any>> {
-    const uri = `mongodb+srv://${_CONFIGS.dbCredentials.username}:${_CONFIGS.dbCredentials.password}@harmony.8w14cgj.mongodb.net/Harmony?retryWrites=true&w=majority`;
-    mongoose.connect(uri);
-    const user: any = User.find({ email: 'sajid@khan.com' }).select("name").exec((x, y) => {
-      console.log(2,x, y);
-    });
-    console.log(1, user);
 
-
-    return new APIResponse<IUser>(user, StatusCode.BadRequest);
+    return new APIResponse<string>("", StatusCode.BadRequest);
   }
 }
