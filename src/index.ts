@@ -1,8 +1,7 @@
 import { AppDataSource } from "./core/DataSource";
-import {Post} from "./core/entity/Post";
-import {Category} from "./core/entity/Category";
+import {Post} from "./core/entities/Post";
+import {Category} from "./core/entities/Category";
 
-// connection settings are in the "ormconfig.json" file
 AppDataSource.initialize().then(async () => {
 
     const category1 = new Category();
