@@ -1,12 +1,12 @@
+import "reflect-metadata"
 import { StatusCode } from './../interface/common/StatusCode';
 import { APIResponse } from '../models/APIResponse';
 import { IUser } from "../interface/IUser";
 import bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken';
 import { Configs } from '../config/Config';
-import { Category } from '../core/entities/Category';
-import { Post } from '../core/entities/Post';
 import { AppDataSource } from "../core/DataSource"
+import { User } from '../core/entities/User';
 
 const _CONFIGS = new Configs();
 // A post request should not contain an id.
@@ -14,7 +14,7 @@ export type UserCreationParams = Pick<IUser,
   "email"
   | "name"
   | "password"
-  | "phoneNumber"
+  | "profilePhoto"
 >;
 
 export class UsersService {
@@ -28,29 +28,50 @@ export class UsersService {
       email: "sajid@khan.com",
       name: name ?? "Sajid Khan",
       password: "123456",
-      phoneNumber: "",
-      token: "",
-      timestamps: {}
+      profilePhoto: "",
+      token: ""
     };
   }
 
   public async create(params: UserCreationParams): Promise<APIResponse<any>> {
-    const category1 = new Category();
-    category1.name = "Angular";
 
-    const category2 = new Category();
-    category2.name = "React";
+    // get entity repositories
+    const _repository = AppDataSource.getRepository(User)
 
-    const post = new Post();
-    post.title = "ABC";
-    post.text = `angular and react are good and framwork for UI.`;
-    post.categories = [category1, category2];
+    const isExist = await AppDataSource.manager.findOne(User, {
+      where: {
+        email: params.email,
+      },
+    });
+    console.log(params);
+    if (isExist) {
+      return new APIResponse<string>("User Exist", StatusCode.BadRequest);
+    }
 
-    await AppDataSource.manager.save(post);
-    console.log("Post has been saved: ", post);
+    const user = new User();
+    user.email = params.email;
+    user.name = params.name;
 
-    const loadedPosts = await AppDataSource.manager.find(Post);
-    console.log("Loaded posts from the database: ", loadedPosts);
-    return new APIResponse<string>("", StatusCode.BadRequest);
+    //Encrypt user password
+    const encryptedPassword = await bcrypt.hash(params.password || _CONFIGS.defaultPassword, 10).then(x => x);
+    user.password = encryptedPassword;
+
+    // Save in Db
+    await _repository.save(user);
+
+    //Create token
+    const token = jwt.sign(
+      params,
+      _CONFIGS.JWT.secret,
+      {
+        expiresIn: _CONFIGS.JWT.expiresIn,
+        audience: _CONFIGS.JWT.audience,
+        subject: _CONFIGS.JWT.subject,
+      }
+    );
+    return new APIResponse<IUser>({
+      ...params,
+      token: token
+    }, StatusCode.Created);
   }
 }

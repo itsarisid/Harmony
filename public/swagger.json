@@ -115,31 +115,17 @@
 					"password": {
 						"type": "string"
 					},
-					"phoneNumber": {
+					"profilePhoto": {
 						"type": "string"
 					},
 					"token": {
 						"type": "string"
-					},
-					"timestamps": {
-						"properties": {
-							"updatedAt": {
-								"type": "string",
-								"format": "date-time"
-							},
-							"createdAt": {
-								"type": "string",
-								"format": "date-time"
-							}
-						},
-						"type": "object"
 					}
 				},
 				"required": [
 					"email",
 					"name",
-					"phoneNumber",
-					"timestamps"
+					"profilePhoto"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -184,7 +170,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_IUser.email-or-name-or-password-or-phoneNumber_": {
+			"Pick_IUser.email-or-name-or-password-or-profilePhoto_": {
 				"properties": {
 					"email": {
 						"type": "string"
@@ -195,20 +181,20 @@
 					"password": {
 						"type": "string"
 					},
-					"phoneNumber": {
+					"profilePhoto": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"email",
 					"name",
-					"phoneNumber"
+					"profilePhoto"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"UserCreationParams": {
-				"$ref": "#/components/schemas/Pick_IUser.email-or-name-or-password-or-phoneNumber_"
+				"$ref": "#/components/schemas/Pick_IUser.email-or-name-or-password-or-profilePhoto_"
 			}
 		},
 		"securitySchemes": {

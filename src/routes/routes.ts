@@ -40,13 +40,13 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "User": {
+    "IUser": {
         "dataType": "refObject",
         "properties": {
             "email": {"dataType":"string","required":true},
             "name": {"dataType":"string","required":true},
-            "password": {"dataType":"string","required":true},
-            "phoneNumber": {"dataType":"string","required":true},
+            "password": {"dataType":"string"},
+            "profilePhoto": {"dataType":"string","required":true},
             "token": {"dataType":"string"},
         },
         "additionalProperties": false,
@@ -62,24 +62,24 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "APIResponse_User_": {
+    "APIResponse_IUser_": {
         "dataType": "refObject",
         "properties": {
             "message": {"dataType":"string","required":true},
             "code": {"ref":"StatusCode","required":true},
-            "data": {"ref":"User","required":true},
+            "data": {"ref":"IUser","required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_User.email-or-name-or-password-or-phoneNumber_": {
+    "Pick_IUser.email-or-name-or-password-or-profilePhoto_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"password":{"dataType":"string","required":true},"phoneNumber":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"password":{"dataType":"string"},"profilePhoto":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserCreationParams": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_User.email-or-name-or-password-or-phoneNumber_","validators":{}},
+        "type": {"ref":"Pick_IUser.email-or-name-or-password-or-profilePhoto_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -146,7 +146,7 @@ export function RegisterRoutes(app: express.Router) {
 
             function AuthController_register(request: any, response: any, next: any) {
             const args = {
-                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"User"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"IUser"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -159,7 +159,7 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.register.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, 201, next);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }

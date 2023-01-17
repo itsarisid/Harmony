@@ -1,7 +1,5 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { Category } from "./entities/Category"
-import { Post } from "./entities/Post"
 
 import { Configs } from '../config/Config';
 const _CONFIGS = new Configs();

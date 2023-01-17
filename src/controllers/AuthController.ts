@@ -65,29 +65,7 @@ export class AuthController extends Controller {
       return new APIResponse<Joi.ValidationError>(error, StatusCode.BadRequest);
     } else {
       const _services = new UsersService();
-      let res = await _services.create(requestBody);
-      console.log(3,res);
-      return res;
-      //console.log(a);
-      //return new APIResponse<any>(a);
-      // if (result == StatusCode.BadRequest) {
-      //   return result;
-      // } else {
-      //   //Create token
-      //   const token = jwt.sign(
-      //     requestBody,
-      //     _CONFIGS.JWT.secret,
-      //     {
-      //       expiresIn: _CONFIGS.JWT.expiresIn,
-      //       audience: _CONFIGS.JWT.audience,
-      //       subject: _CONFIGS.JWT.subject,
-      //     }
-      //   );
-      //   return new APIResponse<IUser>({
-      //     ...requestBody,
-      //     token: token
-      //   }, StatusCode.Created);
-      // }
+      return await _services.create(requestBody);
     }
   }
 }
