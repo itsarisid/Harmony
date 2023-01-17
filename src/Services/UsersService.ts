@@ -7,43 +7,25 @@ import * as jwt from 'jsonwebtoken';
 import { Configs } from '../config/Config';
 import { AppDataSource } from "../core/DataSource"
 import { User } from '../core/entities/User';
+import { RegisterDto } from "../dtos/UserDTO";
+import { LoginDto } from "src/dtos/AuthDTO";
 
 const _CONFIGS = new Configs();
-// A post request should not contain an id.
-export type UserCreationParams = Pick<IUser,
-  "email"
-  | "name"
-  | "password"
-  | "profilePhoto"
->;
 
 export class UsersService {
-  // private _user: IUser;
-  // constructor(user: IUser) {
-  //   this._user = user;
-  // }
-
-  public get(id: number, name?: string): IUser {
-    return {
-      email: "sajid@khan.com",
-      name: name ?? "Sajid Khan",
-      password: "123456",
-      profilePhoto: "",
-      token: ""
-    };
+  // get entity repositories
+  private _repository;
+  constructor() {
+    this._repository = AppDataSource.getRepository(User)
   }
 
-  public async create(params: UserCreationParams): Promise<APIResponse<any>> {
-
-    // get entity repositories
-    const _repository = AppDataSource.getRepository(User)
+  public async create(params: RegisterDto): Promise<APIResponse<any>> {
 
     const isExist = await AppDataSource.manager.findOne(User, {
       where: {
         email: params.email,
       },
     });
-    console.log(params);
     if (isExist) {
       return new APIResponse<string>("User Exist", StatusCode.BadRequest);
     }
@@ -57,7 +39,7 @@ export class UsersService {
     user.password = encryptedPassword;
 
     // Save in Db
-    await _repository.save(user);
+    await this._repository.save(user);
 
     //Create token
     const token = jwt.sign(
@@ -73,5 +55,43 @@ export class UsersService {
       ...params,
       token: token
     }, StatusCode.Created);
+  }
+
+  public async login(params: LoginDto): Promise<APIResponse<any>> {
+    return new Promise(async (resolve, reject) => {
+      const user = await AppDataSource.manager.findOne(User, {
+        where: {
+          email: params.email,
+        },
+      });
+      if (!user) {
+        return new APIResponse<string>("User not exist", StatusCode.BadRequest);
+      }
+      bcrypt.compare(params.password, user.password, async (err, isMatch) => {
+        if (err) throw err;
+        if (isMatch) {
+          const payload = {
+            ...user
+          };
+          //Create token
+          const token = jwt.sign(
+            payload,
+            _CONFIGS.JWT.secret,
+            {
+              expiresIn: _CONFIGS.JWT.expiresIn,
+              audience: _CONFIGS.JWT.audience,
+              subject: _CONFIGS.JWT.subject,
+            }
+          );
+          resolve(new APIResponse<IUser>({
+            ...payload,
+            token: token
+          }, StatusCode.Ok));
+        }
+        else {
+          resolve(new APIResponse<string>("Bad Request", StatusCode.BadRequest));
+        }
+      });
+    });
   }
 }

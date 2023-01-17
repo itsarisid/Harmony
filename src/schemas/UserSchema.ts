@@ -6,3 +6,9 @@ export const UserSchema = Joi.object({
     password: Joi.string().required(),
     profilePhoto: Joi.string(),
 }).meta({ className: 'User' });
+
+
+export const LoginSchema = Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+}).meta({ className: 'User' });

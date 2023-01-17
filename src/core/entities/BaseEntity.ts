@@ -1,6 +1,6 @@
 import {Column, Entity, ObjectID, ObjectIdColumn} from "typeorm";
 
-export default class BaseEntity {
+export default abstract class BaseEntity {
 
     @ObjectIdColumn()
     id: ObjectID;

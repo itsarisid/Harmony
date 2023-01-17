@@ -6,6 +6,25 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"Pick_ILogin.email-or-password_": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"LoginDto": {
+				"$ref": "#/components/schemas/Pick_ILogin.email-or-password_"
+			},
 			"PingResponse": {
 				"properties": {
 					"message": {
@@ -104,6 +123,52 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Pick_IUser.email-or-name-or-password-or-profilePhoto_": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"profilePhoto": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"name",
+					"profilePhoto"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"RegisterDto": {
+				"$ref": "#/components/schemas/Pick_IUser.email-or-name-or-password-or-profilePhoto_"
+			},
+			"APIResponse_string_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"$ref": "#/components/schemas/StatusCode"
+					},
+					"data": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"code",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IUser": {
 				"properties": {
 					"email": {
@@ -130,26 +195,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"APIResponse_string_": {
-				"properties": {
-					"message": {
-						"type": "string"
-					},
-					"code": {
-						"$ref": "#/components/schemas/StatusCode"
-					},
-					"data": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"message",
-					"code",
-					"data"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"APIResponse_IUser_": {
 				"properties": {
 					"message": {
@@ -169,32 +214,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"Pick_IUser.email-or-name-or-password-or-profilePhoto_": {
-				"properties": {
-					"email": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"profilePhoto": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"email",
-					"name",
-					"profilePhoto"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"UserCreationParams": {
-				"$ref": "#/components/schemas/Pick_IUser.email-or-name-or-password-or-profilePhoto_"
 			}
 		},
 		"securitySchemes": {
@@ -228,15 +247,23 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/PingResponse"
-								}
+								"schema": {}
 							}
 						}
 					}
 				},
 				"security": [],
-				"parameters": []
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginDto"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/auth/change-password": {
@@ -280,7 +307,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/IUser"
+								"$ref": "#/components/schemas/RegisterDto"
 							}
 						}
 					}
@@ -353,7 +380,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserCreationParams"
+								"$ref": "#/components/schemas/RegisterDto"
 							}
 						}
 					}

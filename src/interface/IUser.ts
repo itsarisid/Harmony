@@ -6,6 +6,11 @@ export interface IUser {
     token?:string;
   }
 
+export interface ILogin{
+  email: string;
+  password:string;
+}
+
 export interface Registration{
   token?:string
 }

@@ -1,21 +1,12 @@
+import { RegisterDto } from './../dtos/UserDTO';
 import { APIResponse } from "../models/APIResponse";
 import { Configs } from '../config/Config';
-import * as jwt from 'jsonwebtoken';
-import {
-  Body,
-  Controller,
-  Get,
-  Path,
-  Post,
-  Query,
-  Route,
-  SuccessResponse,
-} from "tsoa";
+import { Body, Controller, Post, Route, } from "tsoa";
 import Joi from 'joi'
-import { UserCreationParams, UsersService } from "../Services/UsersService";
-import { IUser } from "../interface/IUser";
-import { UserSchema } from "../schemas/UserSchema";
+import { UsersService } from "../Services/UsersService";
+import { UserSchema, LoginSchema } from "../schemas/UserSchema";
 import { StatusCode } from "../interface/common/StatusCode";
+import { LoginDto } from '../dtos/AuthDTO';
 const _CONFIGS = new Configs();
 interface PingResponse {
   message: string;
@@ -24,29 +15,19 @@ interface PingResponse {
 @Route("auth")
 export class AuthController extends Controller {
   @Post("/login")
-  public async login(): Promise<PingResponse> {
-    //   bcrypt.compare(password, hashedPassword, 
-    //     async function (err, isMatch) {
-
-    //     // Comparing the original password to
-    //     // encrypted password   
-    //     if (isMatch) {
-    //         console.log('Encrypted password is: ', password);
-    //         console.log('Decrypted password is: ', hashedPassword);
-    //     }
-
-    //     if (!isMatch) {
-
-    //         // If password doesn't match the following
-    //         // message will be sent
-    //         console.log(hashedPassword + ' is not encryption of ' 
-    //         + password);
-    //     }
-    // })
-    return {
-      message: "successfull",
-    };
+  public async login(
+    @Body() requestBody: LoginDto
+  ): Promise<any> {
+    const { value, error } = LoginSchema.validate(requestBody);
+    const valid = error == null;
+    if (!valid) {
+      return new APIResponse<Joi.ValidationError>(error, StatusCode.BadRequest);
+    } else {
+      const _services = new UsersService();
+      return await _services.login(requestBody).then(x=>x);
+    }
   };
+
   @Post("/change-password")
   public async changePassword(): Promise<PingResponse> {
     return {
@@ -56,7 +37,7 @@ export class AuthController extends Controller {
 
   @Post("/register")
   public async register(
-    @Body() requestBody: IUser
+    @Body() requestBody: RegisterDto
   ): Promise<APIResponse<any>> {
 
     const { value, error } = UserSchema.validate(requestBody);
