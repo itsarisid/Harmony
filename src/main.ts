@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import { ApplicationError } from './middleware/ApplicationError';
 import { APIResponse } from './models/APIResponse';
 import methodOverride from 'method-override';
+import swaggerUi from "swagger-ui-express";
 const config = new Configs();
 
 // Initialize the app.
@@ -46,6 +47,11 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(methodOverride());
 
+app.use("/api/v1/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
+  return res.send(
+    swaggerUi.generateHTML(await import("./.././public/swagger.json"))
+  );
+});
 
 RegisterRoutes(app);
 app.use(errorHandler);

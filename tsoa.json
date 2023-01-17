@@ -15,12 +15,21 @@
 
           }
         }
-     }
+     },
+     "servers": [
+      {
+        "url": "http://localhost:8322/api/v1",
+        "description": "Dev server"
+      }
+    ],
+    "basePath": "/api/v1",
+		"yaml": true
   },
   "routes": {
     "basePath": "/api/v1",
     "routesDir": "src/routes",
     "middleware": "express",
+    "controllerPathGlobs": ["src/controllers/**/*Controller.ts"],
     "authenticationModule": "src/security/Authentication.ts"
   },
   "ignore": ["**/node_modules/**"]

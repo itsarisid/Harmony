@@ -1,0 +1,282 @@
+components:
+    examples: {}
+    headers: {}
+    parameters: {}
+    requestBodies: {}
+    responses: {}
+    schemas:
+        Pick_ILogin.email-or-password_:
+            properties:
+                email:
+                    type: string
+                password:
+                    type: string
+            required:
+                - email
+                - password
+            type: object
+            description: 'From T, pick a set of properties whose keys are in the union K'
+        LoginDto:
+            $ref: '#/components/schemas/Pick_ILogin.email-or-password_'
+        PingResponse:
+            properties:
+                message:
+                    type: string
+            required:
+                - message
+            type: object
+            additionalProperties: false
+        StatusCode:
+            enum:
+                - 100
+                - 101
+                - 102
+                - 103
+                - 200
+                - 201
+                - 202
+                - 203
+                - 204
+                - 205
+                - 206
+                - 207
+                - 208
+                - 226
+                - 300
+                - 301
+                - 302
+                - 303
+                - 304
+                - 305
+                - 306
+                - 307
+                - 308
+                - 400
+                - 401
+                - 402
+                - 403
+                - 404
+                - 405
+                - 406
+                - 407
+                - 408
+                - 409
+                - 410
+                - 411
+                - 412
+                - 413
+                - 414
+                - 415
+                - 416
+                - 417
+                - 418
+                - 421
+                - 422
+                - 423
+                - 424
+                - 425
+                - 426
+                - 428
+                - 429
+                - 431
+                - 451
+                - 500
+                - 501
+                - 502
+                - 503
+                - 504
+                - 505
+                - 506
+                - 507
+                - 508
+                - 510
+                - 511
+            type: number
+        APIResponse_any_:
+            properties:
+                message:
+                    type: string
+                code:
+                    $ref: '#/components/schemas/StatusCode'
+                data: {}
+            required:
+                - message
+                - code
+                - data
+            type: object
+            additionalProperties: false
+        Pick_IUser.email-or-name-or-password-or-profilePhoto_:
+            properties:
+                email:
+                    type: string
+                password:
+                    type: string
+                name:
+                    type: string
+                profilePhoto:
+                    type: string
+            required:
+                - email
+                - name
+                - profilePhoto
+            type: object
+            description: 'From T, pick a set of properties whose keys are in the union K'
+        RegisterDto:
+            $ref: '#/components/schemas/Pick_IUser.email-or-name-or-password-or-profilePhoto_'
+        APIResponse_string_:
+            properties:
+                message:
+                    type: string
+                code:
+                    $ref: '#/components/schemas/StatusCode'
+                data:
+                    type: string
+            required:
+                - message
+                - code
+                - data
+            type: object
+            additionalProperties: false
+        IUser:
+            properties:
+                email:
+                    type: string
+                name:
+                    type: string
+                password:
+                    type: string
+                profilePhoto:
+                    type: string
+                token:
+                    type: string
+            required:
+                - email
+                - name
+                - profilePhoto
+            type: object
+            additionalProperties: false
+        APIResponse_IUser_:
+            properties:
+                message:
+                    type: string
+                code:
+                    $ref: '#/components/schemas/StatusCode'
+                data:
+                    $ref: '#/components/schemas/IUser'
+            required:
+                - message
+                - code
+                - data
+            type: object
+            additionalProperties: false
+    securitySchemes:
+        jwt:
+            name: jwt
+            type: jwt
+            scopes:
+                'read:project': 'read project'
+                'write:project': 'write project'
+info:
+    title: harmony
+    version: 1.0.0
+    license:
+        name: CC0-1.0
+    contact:
+        name: 'Sajid Khan'
+openapi: 3.0.0
+paths:
+    /auth/login:
+        post:
+            operationId: Login
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema: {}
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginDto'
+    /auth/change-password:
+        post:
+            operationId: ChangePassword
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PingResponse'
+            security: []
+            parameters: []
+    /auth/register:
+        post:
+            operationId: Register
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/APIResponse_any_'
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RegisterDto'
+    /ping:
+        get:
+            operationId: GetMessage
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/APIResponse_string_'
+            security:
+                -
+                    jwt:
+                        - admin
+            parameters: []
+    /ping/pong:
+        get:
+            operationId: ValidateJOI
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/APIResponse_any_'
+            security: []
+            parameters: []
+    /user:
+        post:
+            operationId: CreateUser
+            responses:
+                '201':
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/APIResponse_IUser_'
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RegisterDto'
+servers:
+    -
+        url: /api/v1
