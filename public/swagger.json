@@ -6,6 +6,25 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"Pick_ILogin.email-or-password_": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"LoginDto": {
+				"$ref": "#/components/schemas/Pick_ILogin.email-or-password_"
+			},
 			"PingResponse": {
 				"properties": {
 					"message": {
@@ -18,13 +37,125 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"StatusCode": {
+				"enum": [
+					100,
+					101,
+					102,
+					103,
+					200,
+					201,
+					202,
+					203,
+					204,
+					205,
+					206,
+					207,
+					208,
+					226,
+					300,
+					301,
+					302,
+					303,
+					304,
+					305,
+					306,
+					307,
+					308,
+					400,
+					401,
+					402,
+					403,
+					404,
+					405,
+					406,
+					407,
+					408,
+					409,
+					410,
+					411,
+					412,
+					413,
+					414,
+					415,
+					416,
+					417,
+					418,
+					421,
+					422,
+					423,
+					424,
+					425,
+					426,
+					428,
+					429,
+					431,
+					451,
+					500,
+					501,
+					502,
+					503,
+					504,
+					505,
+					506,
+					507,
+					508,
+					510,
+					511
+				],
+				"type": "number"
+			},
+			"APIResponse_any_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"$ref": "#/components/schemas/StatusCode"
+					},
+					"data": {}
+				},
+				"required": [
+					"message",
+					"code",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_IUser.email-or-name-or-password-or-profilePhoto_": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"profilePhoto": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"name",
+					"profilePhoto"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"RegisterDto": {
+				"$ref": "#/components/schemas/Pick_IUser.email-or-name-or-password-or-profilePhoto_"
+			},
 			"APIResponse_string_": {
 				"properties": {
 					"message": {
 						"type": "string"
 					},
-					"description": {
-						"type": "string"
+					"code": {
+						"$ref": "#/components/schemas/StatusCode"
 					},
 					"data": {
 						"type": "string"
@@ -32,17 +163,14 @@
 				},
 				"required": [
 					"message",
+					"code",
 					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"User": {
+			"IUser": {
 				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
 					"email": {
 						"type": "string"
 					},
@@ -52,74 +180,40 @@
 					"password": {
 						"type": "string"
 					},
-					"phoneNumbers": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
+					"profilePhoto": {
+						"type": "string"
 					},
 					"token": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"id",
 					"email",
 					"name",
-					"password",
-					"phoneNumbers"
+					"profilePhoto"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"APIResponse_User_": {
+			"APIResponse_IUser_": {
 				"properties": {
 					"message": {
 						"type": "string"
 					},
-					"description": {
-						"type": "string"
+					"code": {
+						"$ref": "#/components/schemas/StatusCode"
 					},
 					"data": {
-						"$ref": "#/components/schemas/User"
+						"$ref": "#/components/schemas/IUser"
 					}
 				},
 				"required": [
 					"message",
+					"code",
 					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"Pick_User.email-or-name-or-password-or-phoneNumbers_": {
-				"properties": {
-					"email": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"phoneNumbers": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"email",
-					"name",
-					"password",
-					"phoneNumbers"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"UserCreationParams": {
-				"$ref": "#/components/schemas/Pick_User.email-or-name-or-password-or-phoneNumbers_"
 			}
 		},
 		"securitySchemes": {
@@ -153,15 +247,23 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/PingResponse"
-								}
+								"schema": {}
 							}
 						}
 					}
 				},
 				"security": [],
-				"parameters": []
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginDto"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/auth/change-password": {
@@ -192,14 +294,24 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/PingResponse"
+									"$ref": "#/components/schemas/APIResponse_any_"
 								}
 							}
 						}
 					}
 				},
 				"security": [],
-				"parameters": []
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterDto"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/ping": {
@@ -227,6 +339,25 @@
 				"parameters": []
 			}
 		},
+		"/ping/pong": {
+			"get": {
+				"operationId": "ValidateJOI",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/APIResponse_any_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/user": {
 			"post": {
 				"operationId": "CreateUser",
@@ -236,7 +367,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/APIResponse_User_"
+									"$ref": "#/components/schemas/APIResponse_IUser_"
 								}
 							}
 						}
@@ -249,7 +380,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserCreationParams"
+								"$ref": "#/components/schemas/RegisterDto"
 							}
 						}
 					}

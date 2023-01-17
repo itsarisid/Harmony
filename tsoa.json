@@ -1,7 +1,7 @@
 {
   "entryFile": "src/main.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/controllers/**/*controller.ts"],
+  "controllerPathGlobs": ["src/controllers/**/*Controller.ts"],
   "spec": {
     "outputDirectory": "public",
     "specVersion": 3,
@@ -21,7 +21,7 @@
     "basePath": "/api/v1",
     "routesDir": "src/routes",
     "middleware": "express",
-    "authenticationModule": "src/security/authentication.ts"
+    "authenticationModule": "src/security/Authentication.ts"
   },
   "ignore": ["**/node_modules/**"]
 }

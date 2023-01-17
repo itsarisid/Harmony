@@ -3,11 +3,14 @@ dotenv.config();
 export class Configs {
 
     dbCredentials = {
+        name: process.env.DATABASE_NAME,
         username: process.env.USER_NAME,
         password: process.env.PASSWORD
     }
 
     PORT = process.env.PORT || 8322
+
+    defaultPassword = process.env.DEFAULT_PASSWORD || "default123@harmony"
 
     JWT = {
         secret: process.env.SECRET_KEY || "HARMONY",
