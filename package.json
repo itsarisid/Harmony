@@ -1,7 +1,7 @@
 {
   "name": "harmony",
   "version": "1.0.0",
-  "description": "",
+  "description": "The package is a comprehensive boilerplate codebase for building a Node.js-based CRUD (Create, Read, Update, Delete) API. It provides a solid foundation and standardized structure for developing RESTful APIs using Node.js, Express.js, and a backend database of your choice.",
   "main": "main.ts",
   "scripts": {
     "build": "tsc",
