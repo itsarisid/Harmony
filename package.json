@@ -12,7 +12,7 @@
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec",
     "swagger-autogen": "node swagger.js",
-    "database":"ts-node src/index.ts"
+    "database": "ts-node src/index.ts"
   },
   "nodemonConfig": {
     "watch": [
