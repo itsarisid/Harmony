@@ -1,4 +1,11 @@
-import {Column, Entity, ObjectID, ObjectIdColumn} from "typeorm";
+import {
+    Entity,
+    Column,
+    PrimaryColumn,
+    OneToMany,
+    ManyToMany,
+    OneToOne
+} from "typeorm";
 import BaseEntity from "./BaseEntity";
 
 @Entity()
@@ -11,8 +18,8 @@ export class User extends BaseEntity {
     email: string;
 
     @Column()
-    password:string;
+    password: string;
 
     @Column()
-    profilePhoto:string;
+    profilePhoto: string;
 }
